@@ -18,6 +18,8 @@ const User = require("./models/user");
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
+const healthRouter = require("./routes/health");
+const apiLimiter = require("./middlewares/rateLimit");
 
 
 const port = process.env.PORT || 3000;
@@ -70,17 +72,18 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews", reviewRouter);
-app.use("/", userRouter);
-app.get("/privacy", (req, res, next) => {
+app.use("/health", healthRouter);
+app.use("/listings", apiLimiter, listingRouter);
+app.use("/listings/:id/reviews", apiLimiter, reviewRouter);
+app.use("/auth", apiLimiter, userRouter);
+app.get("/privacy", (_req, res, next) => {
   res.render("./Home/privacyAndTerms");
 });
-app.get("/", (req, res, next) => {
+app.get("/", (_req, res, next) => {
   res.render("./Home/WelcomePage")
 });
 
-app.all("*", (req, res, next) => {
+app.all("*", (_req, res, next) => {
     res.render("./Home/404")
 });
 
