@@ -1,15 +1,15 @@
 const Listing = require("../models/listing");
 
-module.exports.index = async (req, res) => {
+const index = async (req, res) => {
   const allListings = await Listing.find({});
   res.render("./listings/index", { allListings });
 };
 
-module.exports.renderNewForm = (req, res) => {
+const renderNewForm = (req, res) => {
   res.render("listings/new");
 };
 
-module.exports.createListing = async (req, res) => {
+const createListing = async (req, res) => {
   let url = req.file.path;
   let filename = req.file.filename;
   const newListing = new Listing(req.body.listing);
@@ -20,7 +20,7 @@ module.exports.createListing = async (req, res) => {
   res.redirect("/listings");
 };
 
-module.exports.updateListing = async (req, res) => {
+const updateListing = async (req, res) => {
   let { id } = req.params;
   let listing = await Listing.findByIdAndUpdate(
     id,
@@ -38,14 +38,14 @@ module.exports.updateListing = async (req, res) => {
   res.redirect(`/listings/${id}`);
 };
 
-module.exports.destroyListing = async (req, res) => {
+const destroyListing = async (req, res) => {
   let { id } = req.params;
   const deletedListing = await Listing.findByIdAndDelete(id);
   req.flash("success", "Listing Deleted!");
   res.redirect("/listings");
 };
 
-module.exports.renderEditForm = async (req, res) => {
+const renderEditForm = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   if (!listing) {
@@ -58,7 +58,7 @@ module.exports.renderEditForm = async (req, res) => {
   res.render("./listings/edit", { listing, originalImageUrl });
 };
 
-module.exports.showListing = async (req, res) => {
+const showListing = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id)
     .populate({ path: "reviews", populate: { path: "author" } })
@@ -69,3 +69,13 @@ module.exports.showListing = async (req, res) => {
   }
   res.render("./listings/show", { listing });
 };
+
+module.exports={
+  index,
+  renderNewForm,
+  createListing,
+  updateListing,
+  destroyListing,
+  renderEditForm,
+  showListing,
+}

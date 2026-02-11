@@ -4,14 +4,13 @@ if (process.env.NODE_ENV != "production") {
 
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
+require("./init")
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
@@ -20,16 +19,9 @@ const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
 
-async function main() {
-  try {
-    const connectionDb = await mongoose.connect(process.env.ATLAS_DB_URL);
-    // console.log(`Mongo Connected DB Host ${connectionDb.connection.host}`);
-  } catch (e) {
-    // console.error("Database connection error:", e);
-  }
-}
 
-main();
+const port = process.env.PORT || 3000;
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -40,7 +32,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 const store = MongoStore.create({
-  mongoUrl: process.env.ATLAS_DB_URL,
+  mongoUrl: process.env.DB_URL,
   crypto: {
     secret: process.env.DB_SECRET,
   },
@@ -48,7 +40,7 @@ const store = MongoStore.create({
 });
 
 store.on("error", function (e) {
-//   console.log("Mongo Session store error", e);
+  console.log("Mongo Session store error", e);
 });
 
 const sessionOptions = {
@@ -92,6 +84,6 @@ app.all("*", (req, res, next) => {
     res.render("./Home/404")
 });
 
-app.listen(8080, () => {
-//   console.log("app is listening");
+app.listen(port, () => {
+  console.log(`app is listening on http://localhost:${port}`);
 });

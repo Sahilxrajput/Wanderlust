@@ -227,18 +227,17 @@ body{
     margin-top: 11%;
     letter-spacing: 10px;
 }
-.title-price{
-    display: inline;
-}
+
 #main-heading{
     font-size: 8rem;
     position: absolute;
     left: -2%;
-    height:100%;
-    width: 100%;
+    height:100vh;
+    width: 100vw;
     z-index: 9999;
     color: #fe424d;
     background-color: #222222;
+    background-color: red;
     opacity: 1;
 }
 

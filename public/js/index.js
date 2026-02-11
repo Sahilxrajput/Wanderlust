@@ -1,26 +1,21 @@
- 
- let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-  taxSwitch.addEventListener("click",() =>{
-    let taxInfo = document.getElementsByClassName("tax-info");
-    let listingPrice = document.getElementsByClassName("title-price");
+const taxSwitch = document.getElementById("flexSwitchCheckDefault");
 
-    for(price of listingPrice) {
-      if(price.style.display != "inline") {
-      price.style.display = "inline"; 
+taxSwitch.addEventListener("click", () => {
+  const prices = document.getElementsByClassName("listing-price");
+  const taxInfo = document.getElementsByClassName("tax-info");
+
+  for (let price of prices) {
+    const base = parseFloat(price.dataset.base);
+
+    if (taxSwitch.checked) {
+      const total = base * 1.18;
+      price.textContent = total.toFixed(2); // show with 2 decimals
     } else {
-      price.style.display = "none"; 
-    }
-  }
-    for(info of taxInfo) {
-      if(info.style.display != "inline") {
-      info.style.display = "inline"; 
-    } else {
-      info.style.display = "none"; 
+      price.textContent = base.toFixed(2); // revert to original base price
     }
   }
 
-
+  for (let info of taxInfo) {
+    info.style.display = taxSwitch.checked ? "inline" : "none";
+  }
 });
-
-
- 
