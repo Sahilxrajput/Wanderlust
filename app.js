@@ -77,14 +77,14 @@ app.use("/listings", apiLimiter, listingRouter);
 app.use("/listings/:id/reviews", apiLimiter, reviewRouter);
 app.use("/auth", apiLimiter, userRouter);
 app.get("/privacy", (_req, res, next) => {
-  res.render("./Home/privacyAndTerms");
+  res.render("Home/privacyAndTerms");
 });
 app.get("/", (_req, res, next) => {
-  res.render("./Home/WelcomePage")
+  res.render("Home/WelcomePage")
 });
 
 app.all("*", (_req, res, next) => {
-    res.render("./Home/404")
+    res.render("Home/404")
 });
 
 app.listen(port, () => {
