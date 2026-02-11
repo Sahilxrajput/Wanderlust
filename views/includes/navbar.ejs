@@ -19,8 +19,8 @@
        <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Wanderlust your home</a>
         <% if(!currUser) {%>
-        <a class="nav-link "href="/signup"><i class="fa-solid fa-user-plus signup"></i><b>Sign Up</b></a>
-        <a class="nav-link" href="/login"><i class="fa-solid fa-right-from-bracket login"></i><b>Log In</b></a>
+        <a class="nav-link "href="/auth/signup"><i class="fa-solid fa-user-plus signup"></i><b>Sign Up</b></a>
+        <a class="nav-link" href="/auth/login"><i class="fa-solid fa-right-from-bracket login"></i><b>Log In</b></a>
         <%}%>
         <% if(currUser) {%>
         <a class="nav-link" href="/auth/logout"><i class="fa-solid fa-right-from-bracket logout"></i><b>Log Out</b></a>
